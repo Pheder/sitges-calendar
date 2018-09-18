@@ -1,0 +1,17 @@
+
+main{
+    padding: 50px;
+    max-width: 1300px;
+}
+
+.card{
+    cursor: pointer;
+    &:hover{
+        background-color:#e2e6ea;
+    }
+    &.active{
+        background-color: #007bff;
+        color: #ffffff;
+    }
+}
+
