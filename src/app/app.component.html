@@ -27,8 +27,8 @@
   <br>
   <div [ngSwitch]="view" class="form-group">
     <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events" [refresh]="refresh"
-      [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)"> </mwl-calendar-month-view>
-    <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [viewDate]="viewDate" [events]="events" [refresh]="refresh">
+      [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)"  (eventClicked)="goShop($event.event);"  [weekStartsOn]="weekStart"> </mwl-calendar-month-view>
+    <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [viewDate]="viewDate" [events]="events" [refresh]="refresh" [weekStartsOn]="weekStart" (eventClicked)="goShop($event.event);">
     </mwl-calendar-week-view>
   </div>
   <div class="form-group row">

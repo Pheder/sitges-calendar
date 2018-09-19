@@ -19,14 +19,27 @@ import {
 import {
   CalendarEvent,
   CalendarEventAction,
-  CalendarView
+  CalendarView,
+  DAYS_OF_WEEK,
+  CalendarDateFormatter,
+  CalendarEventTitleFormatter
 } from 'angular-calendar';
+
+import { CustomDateFormatter, CustomEventTitleFormatter } from './custom-date-formatter.provider';
 
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  providers: [{
+    provide: CalendarDateFormatter,
+    useClass: CustomDateFormatter
+  },
+  {
+    provide: CalendarEventTitleFormatter,
+    useClass: CustomEventTitleFormatter
+  }]
 })
 
 export class AppComponent  {
@@ -35,6 +48,8 @@ export class AppComponent  {
   CalendarView = CalendarView;
 
   viewDate: Date = new Date(2018, 9, 1);
+  weekStart: number = DAYS_OF_WEEK.MONDAY;
+
 
   actions: CalendarEventAction[] = [{
       label: '<i class="fa fa-fw fa-pencil"></i>',
@@ -123,6 +138,12 @@ export class AppComponent  {
     }
     this.refresh.next();
     localStorage.setItem('movies', JSON.stringify(this.movies));
+  }
+
+  goShop(event){
+    if(event.url){
+      window.open(event.url);
+    }
   }
 
 }
