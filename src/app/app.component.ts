@@ -14,7 +14,8 @@ import {
   Subject
 } from 'rxjs';
 import {
-  NgbAccordion
+  NgbAccordion,
+  NgbAlert
 } from '@ng-bootstrap/ng-bootstrap';
 import {
   CalendarEvent,
@@ -26,6 +27,8 @@ import {
 } from 'angular-calendar';
 
 import { CustomDateFormatter, CustomEventTitleFormatter } from './custom-date-formatter.provider';
+
+const APP_VERSION = 1;
 
 
 @Component({
@@ -82,17 +85,18 @@ export class AppComponent  {
   constructor(private http: HttpClient) {
 
     let movies = localStorage.getItem('movies');
-    if (movies) {
+    let version =  localStorage.getItem('version') || 0;
+    if (movies && version == APP_VERSION) {
       this.movies = JSON.parse(movies);
-      this.movies.forEach(movie => {
-        movie.actions = this.actions,
-          movie.start = new Date(movie.start);
-        movie.end = new Date(movie.end);
-        movie.day = movie.start.getDate();
-        if (movie.active) {
-          this.events.push(movie);
-        }
-      });
+        this.movies.forEach(movie => {
+          movie.actions = this.actions,
+            movie.start = new Date(movie.start);
+          movie.end = new Date(movie.end);
+          movie.day = movie.start.getDate();
+          if (movie.active) {
+            this.events.push(movie);
+          }
+        });
     } else {
       http.get('assets/movies.json').subscribe(data => {
         data['movies'].forEach(movie => {
@@ -138,6 +142,7 @@ export class AppComponent  {
     }
     this.refresh.next();
     localStorage.setItem('movies', JSON.stringify(this.movies));
+    localStorage.setItem('version', APP_VERSION.toString() );
   }
 
   goShop(event){
