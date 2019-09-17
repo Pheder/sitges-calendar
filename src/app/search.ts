@@ -12,9 +12,9 @@ export class SearchPipe implements PipeTransform {
    * @param term term's search
    */
   transform(items: any, term: string): any {
-    if (!term || !items) return items;
+    if (!term || !items) { return items; }
 
-    return SearchPipe.filter(items, term);
+    return this.filter(items, term);
   }
 
   /**
@@ -23,19 +23,20 @@ export class SearchPipe implements PipeTransform {
    * @param term  a string term to compare with every property of the list
    *
    */
-  static filter(items: Array<{ [key: string]: any }>, term: string): Array<{ [key: string]: any }> {
+  filter = (items: Array<{ [key: string]: any }>, term: string): Array<{ [key: string]: any }> => {
 
     const toCompare = term.toLowerCase();
 
     return items.filter(function (item: any) {
-      for (let property in item) {
-        if (item[property] === null || item[property] == undefined) {
-          continue;
-        }
-        if (item[property].toString().toLowerCase().includes(toCompare)) {
+        if (item.value[0]['title'].toString().toLowerCase().includes(toCompare)) {
           return true;
+        } else if ( item.value[0].isMarathon) {
+          for (const film of item.value[0].films ) {
+            if (film.title.toString().toLowerCase().includes(toCompare)) {
+              return true;
+            }
+          }
         }
-      }
       return false;
     });
   }

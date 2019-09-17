@@ -50,7 +50,7 @@ export class AppComponent  {
 
   CalendarView = CalendarView;
 
-  viewDate: Date = new Date(2018, 9, 1);
+  viewDate: Date = new Date(2019, 9, 1);
   weekStart: number = DAYS_OF_WEEK.MONDAY;
 
 
@@ -78,15 +78,15 @@ export class AppComponent  {
 
   events: CalendarEvent[] = [];
   movies: any;
-  title: string = "";
+  title: String = '';
 
-  activeDayIsOpen: boolean = false;
+  activeDayIsOpen: Boolean = false;
 
   constructor(private http: HttpClient) {
 
-    let movies = localStorage.getItem('movies');
-    let version =  localStorage.getItem('version') || 0;
-    if (movies && version == APP_VERSION) {
+    const movies = localStorage.getItem('movies');
+    const version =  localStorage.getItem('version') || 0;
+    if (movies && version === APP_VERSION) {
       this.movies = JSON.parse(movies);
         this.movies.forEach(movie => {
           movie.actions = this.actions,
@@ -101,11 +101,12 @@ export class AppComponent  {
       http.get('assets/movies.json').subscribe(data => {
         data['movies'].forEach(movie => {
           movie.actions = this.actions,
-            movie.start = new Date(movie.start);
+          movie.start = new Date(movie.start);
           movie.end = new Date(movie.end);
           movie.day = movie.start.getDate();
         });
         this.movies = data['movies'];
+        console.log(this.movies);
       });
     }
 
@@ -137,7 +138,10 @@ export class AppComponent  {
       session.active = false;
       this.events.splice(this.events.indexOf(session), 1);
     } else {
-      this.events.push(session);
+      this.events = [
+        ...this.events,
+        session
+      ];
       session.active = true;
     }
     this.refresh.next();

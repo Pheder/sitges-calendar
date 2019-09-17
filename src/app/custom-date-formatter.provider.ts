@@ -1,7 +1,8 @@
 import { CalendarDateFormatter, DateFormatterParams, CalendarEventTitleFormatter, CalendarEvent } from 'angular-calendar';
 import { DatePipe } from '@angular/common';
-import { LOCALE_ID, Inject } from '@angular/core';
+import { LOCALE_ID, Inject, Injectable } from '@angular/core';
 
+@Injectable()
 export class CustomDateFormatter extends CalendarDateFormatter {
   // you can override any of the methods defined in the parent class
 
@@ -11,6 +12,7 @@ export class CustomDateFormatter extends CalendarDateFormatter {
 
 }
 
+@Injectable()
 export class CustomEventTitleFormatter extends CalendarEventTitleFormatter {
   constructor(@Inject(LOCALE_ID) private locale: string) {
     super();
@@ -27,6 +29,6 @@ export class CustomEventTitleFormatter extends CalendarEventTitleFormatter {
       event.end,
       'HH:mm',
       this.locale
-    )} :</b> ${event.title} |<i> ${event["sala"]} </i>`;
+    )} :</b> ${event.title} |<i> ${event['sala']} </i>`;
   }
 }
